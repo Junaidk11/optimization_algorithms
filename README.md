@@ -1,2 +1,8 @@
-# optimization_algorithms
-Basic Implementations of Optimization Algorithms
+# Optimization Algorithms
+
+Basic Implementations of Optimization Algorithms. Algorithms are implemented in MATLAB. 
+
+Algorithms implemented: 
+   -  Golden Section Method
+   
+
