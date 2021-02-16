@@ -1,9 +1,11 @@
 function golden_section_method(initial_lower, initial_upper, tolerance_desired,iteration_desired)
 %% Number of Function evaluation 
-figure; hold on;
+
+% Include to visualise how window changes with each iteration
+% figure; hold on; 
+
 global fcount;
 fcount = 0; 
-
 %% Search Interval 
 x_lower = initial_lower; %initial lower bound
 x_upper = initial_upper; %initial upper bound
@@ -32,11 +34,11 @@ fval_x2 = myfunc(x2);
 
 % plotting x
 % Comment the following - only included for visuals
-% b/c: each call to myfunc increments fcount.
-plot(x_lower, myfunc(x_lower),'gd');
-plot(x_upper, myfunc(x_upper),'gd');
-plot(x1, fval_x1, 'rx');
-plot(x2, fval_x2, 'bo');
+% because: Each call to myfunc increments fcount.
+% plot(x_lower, myfunc(x_lower),'gd');
+% plot(x_upper, myfunc(x_upper),'gd');
+% plot(x1, fval_x1, 'rx');
+% plot(x2, fval_x2, 'bo');
 
 while (e>e_desired && n < iteration_limit)
     
@@ -74,12 +76,13 @@ while (e>e_desired && n < iteration_limit)
     
      %%  Plot updated Interval
      % Comment the following - only included for visuals
-     % b/c: each call to myfunc increments fcount.
-     plot(x_lower, myfunc(x_lower),'gd');
-     plot(x_upper, myfunc(x_upper),'gd');   
+     % because: Each call to myfunc increments fcount.
+     % plot(x_lower, myfunc(x_lower),'gd');
+     % plot(x_upper, myfunc(x_upper),'gd');   
     %% Calculate new Tolerance   
     e = abs(x_upper-x_lower);      
 end
+
 
 if (n == iteration_limit)
     disp('No solution found');
