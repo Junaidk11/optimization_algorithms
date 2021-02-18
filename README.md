@@ -4,5 +4,6 @@ Basic Implementations of Optimization Algorithms. Algorithms are implemented in 
 
 Algorithms implemented: 
    -  Golden Section Method
+   -  Quasi-Newton Method
    
 
