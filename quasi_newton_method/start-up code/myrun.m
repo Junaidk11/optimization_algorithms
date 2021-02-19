@@ -1,12 +1,11 @@
 %% clear workspace and commandline
 clc 
-
 %% Problem Numbers
 % Problem 2.a is denoted as 1
 % Problem 2.b is denoted as 2
 % Problem 3 is denoted as 3 
 global problemNumber;
-problemNumber = 1;  % For different problems, just changed this number here
+problemNumber = 3;  % For different problems, just changed this number here
 
 %% Starting points for Each Problem 
 if problemNumber == 1
