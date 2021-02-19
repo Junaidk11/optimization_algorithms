@@ -54,7 +54,7 @@ while (e>e_desired)
         fval_x1 = func(x1);
         
         %plot new point
-        plot(x1,fval_x1,'rx');
+        %plot(x1,fval_x1,'rx');
     else       
         x_lower = x1; % Lower Bound shifted to the right
         %x4 = x4; % Upper bound not changed -> redundant statement, could skip 
@@ -67,7 +67,7 @@ while (e>e_desired)
         fval_x2 = func(x2);
         
         %plot new point
-        plot(x2,fval_x2,'bo');       
+        %plot(x2,fval_x2,'bo');       
     end    
     
      %%  Plot updated Interval
@@ -80,17 +80,17 @@ while (e>e_desired)
 end
 
 if(fval_x1<fval_x2) 
-    fprintf('Minimum value found is %d found at location x = %d \n',fval_x1, x1)    
+    %fprintf('Minimum value found is %d found at location x = %d \n',fval_x1, x1)    
     fx_min = fval_x1; 
     x = x1;
 elseif (fval_x1 >fval_x2)
-    fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
+    %fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
     fx_min = fval_x2; 
     x = x2;
 else
     % Either one of x1 and x2, as they're both giving the same point -
     % Won't reach this clause. Placed it for the sake of completeness.
-    fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
+    %fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
     fx_min = fval_x2; 
     x = x2;
 end
