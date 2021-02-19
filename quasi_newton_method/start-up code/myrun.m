@@ -6,7 +6,11 @@ clc
 % Problem 2.b is denoted as 2
 % Problem 3 is denoted as 3 
 global problemNumber;
-problemNumber = 3;  % For different problems, just changed this number here
+problemNumber = 1;  % For different problems, just changed this number here
+
+%% Function Evaluations
+global fcount;
+fcount = 0;
 
 %% Starting points for Each Problem 
 if problemNumber == 1
@@ -21,9 +25,11 @@ gold = grad(xold); % Gradient at this point;
 Bold = eye(length(xold)); 
 
 %% Steepest Descent performed for first iteration
-f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
-[fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); % Use golden method to minimise f(alpha)
-xnew = xold - alpha_best*Bold*gold;
+f_alpha = @(alpha) myfunc(xold - alpha*gold);
+
+% Use golden method to minimise f(alpha)
+[fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); 
+xnew = xold - alpha_best*gold;
 gnew = grad(xnew);
 
 % Print results to check steepest descent works
@@ -33,23 +39,21 @@ fprintf('------ Steepest Descent Results ------- \n');
 fprintf('Best alpha is:  alpha0 = %d \n', alpha_best);
 disp('Minimum point found is:');
 disp(xnew);
+
 fprintf('Function evaluation at the optimum point is: %d \n', myfunc(xnew));
 disp('Gradient vector at this point is:');
 disp(gnew); 
-fprintf('------ End of Steepest Descent Results ------- \n\n\n');
 
+fprintf('------ End of Steepest Descent Results ------- \n\n\n');
 
 fprintf('------ BFGS Algorithm Results ------- \n');
 fprintf('------ FIRST ITERATION Results -------- \n');
 
 % Define stopping criteria parameters for BFGS
-e = alpha_best*Bold*gold;
+e = alpha_best*Bold*gold; 
 e_desired = 1e-6;  % Need to find best stopping criteria
 
-%% BFGS starts here
-% xnew = is your x0 -> Therefore, xold = xnew at start of BFGS, 
-% gnew is your g0 -> Therefore, gold = gnew at start of  BFGS,
-% Bold is your B0, started with Identity, at the end of the iteration, you updated Bold with Bnew 
+%% BFGS starts here 
 k = 0;
 while(vectorMag(e)>e_desired)  %% Stopping criteria
     % BFGS algorithm goes here
@@ -60,7 +64,8 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     
     %% Using 1-D optimization: Golden Section Method to find best alpha
     f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
-    [fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); % Use golden method to minimise f(alpha)
+    % Use golden method to minimise f(alpha)
+    [fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); 
     if k==0
         fprintf('BFGS First Iteration best alpha is: alpha1 = %d \n',alpha_best);
     end

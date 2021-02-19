@@ -1,7 +1,4 @@
 function [fx_min,x] = golden_section_method(func,tolerance,lb, ub)
-% Your golden section method code goes here
-% Your golden section method code goes here
-
 %% Search Interval 
 x_lower = lb; %initial lower bound
 x_upper = ub; %initial upper bound
