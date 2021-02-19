@@ -43,7 +43,7 @@ fprintf('------ FIRST ITERATION Results -------- \n');
 
 % Define stopping criteria parameters for BFGS
 e = alpha_best*Bold*gold;
-e_desired = 1e-4;  % Need to find best stopping criteria
+e_desired = 1e-6;  % Need to find best stopping criteria
 
 %% BFGS starts here
 % xnew = is your x0 -> Therefore, xold = xnew at start of BFGS, 
@@ -59,7 +59,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     
     %% Using 1-D optimization: Golden Section Method to find best alpha
     f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
-    [fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 50); % Use golden method to minimise f(alpha)
+    [fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); % Use golden method to minimise f(alpha)
     if k==0
         fprintf('BFGS First Iteration best alpha is: alpha1 = %d \n',alpha_best);
     end
@@ -69,7 +69,6 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     if k==0
         disp('BFGS First Iteration solution is: x1 ='); 
         disp(xnew); 
-        disp(' ');
         fprintf('Function evaluation is: f(x1) = %d \n', myfunc(xnew));
     end
     %% Calculate gradient vector at new solution 
@@ -82,8 +81,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
      if k==0      
         disp('BFGS First Iteration [B] is: B1 =');
         disp(Bnew);
-        fprintf('\n------ End of FIRST ITERATION Results -------- \n');
-        
+        fprintf('\n------ End of FIRST ITERATION Results -------- \n');  
     end
      %% Update old appropriate Hessian Matrix 
      Bold = Bnew; 
