@@ -1,4 +1,5 @@
-%% clear workspace and commandline
+%% clear workspace
+% Main Script
 clc 
 %% Problem Numbers
 % Problem 2.a is denoted as 1
@@ -21,7 +22,7 @@ Bold = eye(length(xold));
 
 %% Steepest Descent performed for first iteration
 f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
-[fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 50); % Use golden method to minimise f(alpha)
+[fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); % Use golden method to minimise f(alpha)
 xnew = xold - alpha_best*Bold*gold;
 gnew = grad(xnew);
 
@@ -30,10 +31,10 @@ fprintf('----------FIRST ITERATION ----------- \n');
 fprintf('------ Steepest Descent Results ------- \n');
 
 fprintf('Best alpha is:  alpha0 = %d \n', alpha_best);
-disp('Minimum point found is: ');
+disp('Minimum point found is:');
 disp(xnew);
 fprintf('Function evaluation at the optimum point is: %d \n', myfunc(xnew));
-disp('Gradient vector at this point is: ');
+disp('Gradient vector at this point is:');
 disp(gnew); 
 fprintf('------ End of Steepest Descent Results ------- \n\n\n');
 
@@ -59,7 +60,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     
     %% Using 1-D optimization: Golden Section Method to find best alpha
     f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
-    [fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); % Use golden method to minimise f(alpha)
+    [fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); % Use golden method to minimise f(alpha)
     if k==0
         fprintf('BFGS First Iteration best alpha is: alpha1 = %d \n',alpha_best);
     end
@@ -67,9 +68,9 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     %% Update solution with best alpha 
     xnew = xold - alpha_best*Bold*gold;
     if k==0
-        disp('BFGS First Iteration solution is: x1 ='); 
+        disp('BFGS First Iteration solution is: x2 ='); 
         disp(xnew); 
-        fprintf('Function evaluation is: f(x1) = %d \n', myfunc(xnew));
+        fprintf('Function evaluation is: f(x2) = %d \n', myfunc(xnew));
     end
     %% Calculate gradient vector at new solution 
     gnew = grad(xnew);
@@ -77,7 +78,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     %% Compute new approximate Hessian Matrix 
      gchange = gnew - gold; 
      xchange = xnew - xold; 
-     Bnew  = Bold + (1 + (gchange'*Bold*gchange)/(xchange'*gchange) )*((xchange*xchange')/(xchange'*gchange)) - ((Bold*gchange*xchange' + xchange*gchange'*Bold)/(xchange'*gchange));
+     Bnew  = Bold + (1 + (gchange'*Bold*gchange)/(xchange'*gchange) )*((xchange*xchange')/(xchange'*gchange))-((Bold*gchange*xchange' + xchange*gchange'*Bold)/(xchange'*gchange));
      if k==0      
         disp('BFGS First Iteration [B] is: B1 =');
         disp(Bnew);
@@ -92,7 +93,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
      
 end
 
-%% Printing BFGS Algorithm Results
+%% Printing BFGS Results
 
 disp('------ Final BFGS Algorithm Results -------');
 disp('BFGS algorithm optimum point is: ');

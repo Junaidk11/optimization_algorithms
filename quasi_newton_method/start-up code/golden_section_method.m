@@ -28,14 +28,6 @@ x2 = x_lower + k*interval;
 fval_x1 = func(x1);
 fval_x2 = func(x2);
 
-% plotting x
-% Comment the following - only included for visuals
-% because: Each call to myfunc increments fcount.
-% plot(x_lower, myfunc(x_lower),'gd');
-% plot(x_upper, myfunc(x_upper),'gd');
-% plot(x1, fval_x1, 'rx');
-% plot(x2, fval_x2, 'bo');
-
 while (e>e_desired)
     
     % % YOUR CODE GOES HERE  
@@ -52,9 +44,6 @@ while (e>e_desired)
         % New points to check in the new interval for next iteration                                           
         fval_x2 = fval_x1;
         fval_x1 = func(x1);
-        
-        %plot new point
-        %plot(x1,fval_x1,'rx');
     else       
         x_lower = x1; % Lower Bound shifted to the right
         %x4 = x4; % Upper bound not changed -> redundant statement, could skip 
@@ -64,17 +53,8 @@ while (e>e_desired)
         
         % New points to check in the new interval for the next iteration                    
         fval_x1 = fval_x2; 
-        fval_x2 = func(x2);
-        
-        %plot new point
-        %plot(x2,fval_x2,'bo');       
-    end    
-    
-     %%  Plot updated Interval
-     % Comment the following - only included for visuals
-     % because: Each call to myfunc increments fcount.
-     % plot(x_lower, myfunc(x_lower),'gd');
-     % plot(x_upper, myfunc(x_upper),'gd');   
+        fval_x2 = func(x2);           
+    end     
     %% Calculate new Tolerance   
     e = abs(x_upper-x_lower);      
 end
@@ -87,14 +67,6 @@ elseif (fval_x1 >fval_x2)
     %fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
     fx_min = fval_x2; 
     x = x2;
-else
-    % Either one of x1 and x2, as they're both giving the same point -
-    % Won't reach this clause. Placed it for the sake of completeness.
-    %fprintf('Minimum value found is %d found at location x = %d \n',fval_x2, x2)
-    fx_min = fval_x2; 
-    x = x2;
 end
-    
-
 
 end
