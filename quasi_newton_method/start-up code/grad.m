@@ -7,8 +7,11 @@ if problemNumber == 1     % For Problem 2.a
     dfdy = 2*x(2) - x(1) - 1;
     df = [dfdx;dfdy];
 elseif problemNumber == 2 % For Problem 2.b
-
+    dfdx = 2*x(1) - 2 + 4*x(1)^3 - 2*x(2)*x(1);
+    dfdy = 2*x(2) - 2*x(1)^2; 
+    df = [dfdx; dfdy];
 elseif problemNumber == 3 % For Problem 3
+    
 
 end 
 
