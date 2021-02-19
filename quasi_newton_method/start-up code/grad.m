@@ -11,8 +11,10 @@ elseif problemNumber == 2 % For Problem 2.b
     dfdy = 2*x(2) - 2*x(1)^2; 
     df = [dfdx; dfdy];
 elseif problemNumber == 3 % For Problem 3
-    
-
+    dfdx = 2*x(3) + sin(x(3)) + 10*x(1) - 2*x(2); 
+    dfdy = 26*x(2) + 6*x(3) - 2*x(1); 
+    dfdz = x(1)*cos(x(3)) + 2*x(1) + 6*x(2) + 2*x(3); 
+    df = [dfdx; dfdy; dfdz];
 end 
 
 end
