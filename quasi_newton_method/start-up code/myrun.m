@@ -6,7 +6,9 @@ clc
 % Problem 2.b is denoted as 2
 % Problem 3 is denoted as 3 
 global problemNumber;
-problemNumber = 1;  % For different problems, just changed this number here
+
+% For different problems, just changed this number here
+problemNumber = 3;  
 
 %% Function Evaluations
 global fcount;
@@ -28,7 +30,7 @@ Bold = eye(length(xold));
 f_alpha = @(alpha) myfunc(xold - alpha*gold);
 
 % Use golden method to minimise f(alpha)
-[fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); 
+[fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); 
 xnew = xold - alpha_best*gold;
 gnew = grad(xnew);
 
@@ -65,7 +67,7 @@ while(vectorMag(e)>e_desired)  %% Stopping criteria
     %% Using 1-D optimization: Golden Section Method to find best alpha
     f_alpha = @(alpha) myfunc(xold - alpha*Bold*gold); 
     % Use golden method to minimise f(alpha)
-    [fmin,alpha_best] = golden_section_method(f_alpha,1e-6,0, 25); 
+    [fmin,alpha_best] = golden_section_method(f_alpha,1e-4,0, 50); 
     if k==0
         fprintf('BFGS First Iteration best alpha is: alpha1 = %d \n',alpha_best);
     end
