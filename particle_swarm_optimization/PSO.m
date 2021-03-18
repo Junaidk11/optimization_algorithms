@@ -12,7 +12,7 @@ clear all;
 %  2 = Question 1.b 
 %  3 = Question 5.c 
 global problemNumber; 
-problemNumber = 2; 
+problemNumber = 3; 
 
 %% Problem Definiton
 ObjectiveFunction = @(x) myfunction(x);   % Cost Function
@@ -53,9 +53,14 @@ for i=1:nPop
         % Initialize Velocity wihtin (-1000, 1000)
         particle(i).Velocity = unifrnd(vMin, vMax, VarSize);
 
-        % Function Evaluation 
-        particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);
-           
+        % Function Evaluation
+        if problemNumber~=3
+            particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);
+        elseif problemNumber==3
+            problemNumber=2; % ProblemNumber 2 in myfunction is used in problem 3 
+            particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);
+            problemNumber=3;
+        end
         % Update the Personal Best
         particle(i).Best.Position = particle(i).Position;
         particle(i).Best.FitnessValue = particle(i).FitnessValue;
@@ -121,14 +126,16 @@ while(tol>tol_desired && iter<max_iter)
              particle(i).Position=min(particle(i).Position, VarMax);
              
             % Current particle's fitness value
-            particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);
-            
-            %% Penalty Calculation for Problem 3 only
-            if problemNumber == 3           
+            if problemNumber~=3
+                particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);
+                Penalty = 0;
+            elseif problemNumber==3
+                problemNumber = 2;  % ProblemNumber 2 in myfunction is used in problem 3 
+                particle(i).FitnessValue = ObjectiveFunction(particle(i).Position);              
+                % Penalty Calculation for Problem 3 only                
                 % Evaluate constraint for the current particle - i.e. Penalty
                 Penalty = r*(constraint_func(particle(i).Position))^2;
-            else
-                Penalty = 0;
+                problemNumber = 3;
             end
             %% Update Personal Best
             if particle(i).FitnessValue + Penalty < particle(i).Best.FitnessValue
