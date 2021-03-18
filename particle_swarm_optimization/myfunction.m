@@ -1,7 +1,7 @@
 function z = myfunction(x)
 
+% Select the problem number from main
     global problemNumber;
-    
     if problemNumber==1
         z = x(1)^2 + x(2)^2 -x(1)*x(2) - 4*x(1) - x(2);
     elseif problemNumber==2
