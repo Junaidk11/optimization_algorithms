@@ -56,7 +56,7 @@ clc
 
 % Added by jkhan
 global problemNumber; 
-problemNumber = 1; 
+problemNumber = 2; 
 % Added by jkhan
 
 %% Problem Definiton
@@ -124,8 +124,8 @@ for it=1:MaxIt
                 + c2*rand(VarSize).*(GlobalBest.Position - particle(i).Position);
             
             % Clamp velocity to max, to avoid divergence          
-            particle(i).Velocity = max(particle(i).Velocity, -100);
-            particle(i).Velocity = min(particle(i).Velocity, 100);
+            particle(i).Velocity = max(particle(i).Velocity, -1000);
+            particle(i).Velocity = min(particle(i).Velocity, 1000);
             
             % Update Position
             particle(i).Position = particle(i).Position + particle(i).Velocity;
