@@ -5,7 +5,7 @@ clear all;
 %  3 = Question 5.c 
 
 global problemNumber; 
-problemNumber = 1; 
+problemNumber = 2; 
 %% Problem Definiton
 CostFunction = @(x) myfunction(x);   % Cost Function
 nVar = 2;                           % Number of Decision Variables
@@ -16,11 +16,10 @@ VarMax =  100;                      % Upper Bound of Decision Variables
 %% Parameters of PSO
 nPop = 30;           % Swarm Size
 w = 0.7;             % Intertia Coefficient
-c1 = 2;              % Personal Acceleration Coefficient
-c2 = 2;              % Social Acceleration Coefficient
-
-vMin = -100;        % Lower Bound on Initial Velocity
-vMax = 100;         % Upper Bound on Initial Velocity 
+c1 = 5;              % Personal Acceleration Coefficient
+c2 = 5;              % Social Acceleration Coefficient
+vMin = -1000;        % Lower Bound on Initial Velocity
+vMax = 1000;         % Upper Bound on Initial Velocity 
 
 %% Initialisation
 
@@ -43,12 +42,12 @@ for i=1:nPop
         % Generate Random Position within (-100, 100) 
         particle(i).Position = unifrnd(VarMin, VarMax, VarSize);
 
-        % Initialize Velocity
+        % Initialize Velocity wihtin (-1000, 1000)
         particle(i).Velocity = unifrnd(vMin, vMax, VarSize);
 
         % Function Evaluation 
         particle(i).Cost = CostFunction(particle(i).Position);
-
+           
         % Update the Personal Best
         particle(i).Best.Position = particle(i).Position;
         particle(i).Best.Cost = particle(i).Cost;
@@ -62,20 +61,29 @@ end
 %Define stopping criteria
 tol = 1;
 tol_desired = 1e-6;
-max_iter = 300;        
+max_iter = 400;        
 iter = 1;
 previousIter = 1;
 
 % Array to Hold Minimum on Each Iteration 
-BestCosts = zeros(max_iter, 1);
-BestCosts(iter) = GlobalBest.Cost; 
+empty_results.globalBestFeval=[]; 
+empty_results.globalBestPosition=[]; 
+empty_results.tolerance=[];
+
+% Create a structure array to hold all the iterations
+results = repmat(empty_results, max_iter, 1); 
+
+% initialize Results structure array
+results(iter).globalBestFeval = nan; 
+results(iter).globalBestPosition = GlobalBest.Position;
+results(iter).tolerance = inf; 
 
 %% PSO Main Loop
 while(tol>tol_desired && iter<max_iter)  
         iter=iter+1;
-            previousBestCost = GlobalBest.Cost; 
-       for i=1:nPop
-
+        %previousBestCost = GlobalBest.Cost; 
+        
+       for i=1:nPop          
             r1 = unifrnd(0, 1, VarSize);      % Random value within (0,1)
             r2 = unifrnd(0, 1, VarSize);      % Random value within (0,1)
             
@@ -84,7 +92,7 @@ while(tol>tol_desired && iter<max_iter)
                 + c1*r1.*(particle(i).Best.Position - particle(i).Position) ...
                 + c2*r2.*(GlobalBest.Position - particle(i).Position);
             
-            % Clamp velocity to max, to avoid divergence          
+            % Clamp velocity to max 1000, to avoid divergence          
             particle(i).Velocity = max(particle(i).Velocity, vMin);
             particle(i).Velocity = min(particle(i).Velocity, vMax);
 
@@ -105,30 +113,36 @@ while(tol>tol_desired && iter<max_iter)
                 particle(i).Best.Cost = particle(i).Cost;
 
                 % Update Global Best
-                if particle(i).Best.Cost < GlobalBest.Cost                
+                if particle(i).Best.Cost < GlobalBest.Cost
+                    tol = abs(particle(i).Best.Cost - GlobalBest.Cost);
                     GlobalBest = particle(i).Best;
                 end            
 
             end
        end
        
-        currentBestCost = GlobalBest.Cost;
+       % Storing Iteration Results 
+        results(iter).globalBestPosition = GlobalBest.Position;
+        results(iter).globalBestFeval = GlobalBest.Cost; 
+        previousIter = iter-1;
+        %difference = abs(results(iter).globalBestPosition - results(previousIter).globalBestPosition);
+        %results(iter).tolerance = vectorMag(difference);
+        results(iter).tolerance = tol;
         
-        BestCosts(iter) = GlobalBest.Cost;
         % Without this check, the loop stops at less < 10 iterations
         % as two consecutive GBest are the same, so tol = 0, which <
         % tol_desired and the loop stops. 
-        if currentBestCost ~= previousBestCost
-            % Store the Best Cost Value 
-            % Display Iteration Information
-                                       
-            previousIter = iter-1; 
-            tol = abs(BestCosts(iter) - BestCosts(previousIter));   
-        end
-               
-        disp(['Iteration ' num2str(iter) ': Minimum = ' num2str(BestCosts(iter))]);   
-         
+%         if results(iter).globalBestPosition == results(previousIter).globalBestPosition                        
+%             continue; 
+%         else
+%             tol = results(iter).tolerance;
+%         end 
+        
+        disp(['Iteration ' num2str(iter) ': Minimum = ' num2str(results(iter).globalBestFeval) ': Global Best Position =' num2str(GlobalBest.Position) ', Tolerance =' num2str(results(iter).tolerance)]);   
+       
 end
 %Print solution
-        disp ("The Best Solution obtained in PSO is :"), disp (GlobalBest)
-        disp ("The Best Cost obtained in PSO is :"), disp (BestCosts(iter))
+        fprintf('\n');
+        disp("The total Number of Iterations taken: "), disp(iter);
+        disp ("The Best Solution obtained in PSO is :"), disp (results(iter).globalBestPosition)
+        disp ("The Best Cost obtained in PSO is :"), disp (results(iter))
